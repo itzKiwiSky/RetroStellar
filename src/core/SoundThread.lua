@@ -1,6 +1,6 @@
 soundthread = {} 
--- originally written by StrawberryChocolate, modified by AyanoTheFoxy (thanks mate <3)
-function soundthread.newTone( freq, waveLength, waveType, bitTax, channel, volume, amplitude, rate)
+--% originally written by StrawberryChocolate, Improved by AyanoTheFoxy (thanks friend <3)
+function soundthread.newTone( freq, waveLength, waveType, bitTax, channel, volume, amplitude)
     --I stole this shit from litium >w<
     if waveType == nil then
         waveType = 'square'
@@ -8,7 +8,7 @@ function soundthread.newTone( freq, waveLength, waveType, bitTax, channel, volum
     
     local length    = waveLength / 32
     local phase     = math.floor((rate or 44100) / freq)
-    local soundData = love.sound.newSoundData( math.floor(length * (rate or 44100)), rate or 44100, bitTax or 16, channel or 1)
+    local soundData = love.sound.newSoundData( math.floor(length * (rate or 44100)), 44100, bitTax or 16, channel or 1)
     
     for i = 0, soundData:getSampleCount() - 1 do 
         if waveType == 'noise' then

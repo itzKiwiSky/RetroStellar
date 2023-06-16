@@ -1,0 +1,3 @@
+gamepad = {}
+
+return gamepad
