@@ -20,10 +20,15 @@ end
 function render.drawCall()
     screen = render.generateFrame()
     screen:setFilter("nearest", "nearest")
-    love.graphics.draw(screen, screenX, 10, 0, screenScale)
-    love.graphics.rectangle("line", screenX, 10, screen:getWidth() * screenScale, screen:getHeight()  * screenScale)
+    effect(function()
+        love.graphics.draw(screen, screenX, 10, 0, screenScale)
+    end)
+    if DEVMODE then
+        love.graphics.rectangle("line", screenX, 10, screen:getWidth() * screenScale, screen:getHeight()  * screenScale)
+    end
     screen:release()
     vram.buffer.stack = {}
+    collectgarbage("collect")
 end
 
 function render.clearFrame(color)
@@ -75,5 +80,16 @@ function render.createImageData(w, h, data, colorOverride)
     end
     return Image
 end
+
+function render.createClearImageData(w, h, color)
+    local Image = love.image.newImageData(w, h)
+    for y = 0, h - 1, 1 do
+        for x = 0, w - 1, 1 do
+            Image:setPixel(x, y,  vram.pallete[color][1] / 255, vram.pallete[color][2] / 255, vram.pallete[color][3] / 255)
+        end
+    end
+    return Image
+end
+
 
 return render

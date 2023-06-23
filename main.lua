@@ -7,6 +7,21 @@ function love.load()
     memory = require 'src.core.components.Memory'
     keyboard = require 'src.core.virtualization.Keyboard'
     storage = require 'src.core.virtualization.Storage'
+    moonshine = require 'libraries.moonshine'
+    gamestate = require 'libraries.gamestate'
+
+    effect = moonshine(moonshine.effects.crt)
+    .chain(moonshine.effects.glow)
+    .chain(moonshine.effects.scanlines)
+    .chain(moonshine.effects.vignette)
+
+    effect.glow.strength = 5
+    effect.glow.min_luma = 0.2
+    effect.scanlines.width = 1
+    effect.scanlines.opacity = 0.5
+    effect.vignette.opacity = 0.3
+    effect.vignette.softness = 0.7
+    effect.vignette.radius = 0.4
 
     storage.init()
 
@@ -27,6 +42,7 @@ function love.load()
     errorCodes = {
         "0x0000001"
     }
+    DEVMODE = true
 
     --% initialization folders --
     love.filesystem.createDirectory("bin")
@@ -73,6 +89,14 @@ function love.load()
 end
 
 function love.draw()
+    local y = 15
+    if DEVMODE then
+        love.graphics.print(love.timer.getFPS())
+        for _, spr in ipairs(vram.buffer.bank) do
+            love.graphics.print("$" .. spr.name, 3, y)
+            y = y + 15
+        end
+    end
     render.drawCall()
     pcall(data(), _render())
     memory.render()

@@ -17,11 +17,15 @@ function storage.init()
 end
 
 function storage.createSave(name, data)
-    assert(type(name) == "string", "The save name need to be a string | expected 'Table' got " .. type(name))
-    assert(type(data) == "table", "Data can only be saved as table. | expected 'Table' got " .. type(data))
+    assert(type(name) ~= "string", "[ERROR] :: Invalid type | expected 'String' got " .. type(name))
+    assert(type(data) ~= "table", "[ERROR] :: Invalid type | expected 'Table' got " .. type(data))
     --% first check if save data exist
-    if _saveExist(name) then
-        
+    if storage.saveExist(name) then
+        for _, save in ipairs(saveData.partitions) do
+            if save.name == name then
+                save.data = data
+            end
+        end
     else
         --% create a partition
         local Partition = {

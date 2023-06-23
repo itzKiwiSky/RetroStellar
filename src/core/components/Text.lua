@@ -13,7 +13,7 @@ function fontText.newText(text, x, y, color)
         if type(color) == "table" then
             TextObj.image = render.createImageData(6, 7, vram.buffer.font[char], color[id])
             id = id + 1
-            if id > #text then
+            if id > #color or #color > #text then
                 id = 1
             end
         else
