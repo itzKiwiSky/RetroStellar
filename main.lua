@@ -9,6 +9,9 @@ function love.load()
     storage = require 'src.core.virtualization.Storage'
     moonshine = require 'libraries.moonshine'
     gamestate = require 'libraries.gamestate'
+    touchpad = require 'src.core.virtualization.Touchpad'
+
+    love.graphics.setDefaultFilter("nearest", "nearest")
 
     effect = moonshine(moonshine.effects.crt)
     .chain(moonshine.effects.glow)
@@ -16,7 +19,7 @@ function love.load()
     .chain(moonshine.effects.vignette)
 
     effect.glow.strength = 5
-    effect.glow.min_luma = 0.2
+    effect.glow.min_luma = 0.5
     effect.scanlines.width = 1
     effect.scanlines.opacity = 0.5
     effect.vignette.opacity = 0.3
@@ -42,7 +45,15 @@ function love.load()
     errorCodes = {
         "0x0000001"
     }
-    DEVMODE = true
+
+    DEVMODE = {
+        screenBounds = false,
+        mobileTouchPad = true,
+        showTouchpadButtons = false,
+        listObjects = true,
+        allowResolutionChange = true,
+        nativeResolution = {300, 200}
+    }
 
     --% initialization folders --
     love.filesystem.createDirectory("bin")
@@ -84,13 +95,15 @@ function love.load()
     --% load the rom logic --
     data = love.filesystem.load("baserom/boot.lua")
     --% initialize render stuff (create the first frame)
+    render.resX, render.resY = DEVMODE.nativeResolution[1], DEVMODE.nativeResolution[2]
     render.init()
+    touchpad.init()
     pcall(data(), _init())
 end
 
 function love.draw()
     local y = 15
-    if DEVMODE then
+    if DEVMODE.listObjects then
         love.graphics.print(love.timer.getFPS())
         for _, spr in ipairs(vram.buffer.bank) do
             love.graphics.print("$" .. spr.name, 3, y)
@@ -99,10 +112,12 @@ function love.draw()
     end
     render.drawCall()
     pcall(data(), _render())
+    touchpad.render()
     memory.render()
 end
 
 function love.update(elapsed)
+    touchpad.update(elapsed)
     memory.update()
     pcall(data(), _update(elapsed))
 end
@@ -111,6 +126,20 @@ function love.keypressed(k)
     for _, value in pairs(keyboard.keys) do
         if value == k then
             pcall(data(), _keydown(k))
+        end
+    end
+    if DEVMODE.allowResolutionChange then
+        if k == "f9" then
+            render.resX = render.resX - 10
+        end
+        if k == "f10" then
+            render.resX = render.resX + 10
+        end
+        if k == "f11" then
+            render.resY = render.resY - 10
+        end
+        if k == "f12" then
+            render.resY = render.resY + 10
         end
     end
 end

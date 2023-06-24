@@ -19,10 +19,18 @@ end
 
 function gamepad.vibrate(player, side, strength, duration)
     if #_gamepads > 0 then
-        assert(type(player) == "number", "[ERROR] :: Invalid type | Expected 'Number' got " .. type(player))
-        assert(player < 1 and player > #_gamepads, "[ERROR] :: Out of range of players | Expect number between" .. #_gamepads)
+        assert(type(player) ~= "number", "[ERROR] :: Invalid type | Expected 'Number' got " .. type(player))
+        assert(player < 1 or player > #_gamepads, "[ERROR] :: Out of range of players | Expect number between" .. #_gamepads)
         if _gamepads[player or 1]:isVibrationSupported() then
-            
+            if side == "left" then
+                return _gamepads[player]:setVibration(Strength, 0, duration)
+            end
+            if side == "left" then
+                return _gamepads[player]:setVibration(0, Strength, duration)
+            end
+            if side == "both" then
+                return _gamepads[player]:setVibration(Strength, Strength, duration)
+            end
         end
     end
 end

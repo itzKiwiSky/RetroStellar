@@ -1,17 +1,19 @@
 render = {
+    resX = 300,
+    resY = 200,
     bgColor = 39
 }
 
 local screen
 local buffer
-local screenScale = (love.graphics.getHeight() - 30) / 200
-local screenX = love.graphics.getWidth() / 2 - (300 * screenScale) / 2
+local screenScale = (love.graphics.getHeight() - (render.resX / 10)) / render.resY
+local screenX = love.graphics.getWidth() / 2 - (render.resX * screenScale) / 2
 
 --% extends vram --
 
 --% initialization stuff
 function render.init()
-    buffer = love.image.newImageData(300, 200)
+    buffer = love.image.newImageData(render.resX, render.resY)
     render.clearFrame(render.bgColor)
     screen = love.graphics.newImage(buffer)
 end 
@@ -23,7 +25,7 @@ function render.drawCall()
     effect(function()
         love.graphics.draw(screen, screenX, 10, 0, screenScale)
     end)
-    if DEVMODE then
+    if DEVMODE.screenBounds then
         love.graphics.rectangle("line", screenX, 10, screen:getWidth() * screenScale, screen:getHeight()  * screenScale)
     end
     screen:release()
@@ -32,13 +34,13 @@ function render.drawCall()
 end
 
 function render.clearFrame(color)
-    for y = 0, 199, 1 do
-        for x = 0, 299, 1 do
+    for y = 1, render.resY, 1 do
+        for x = 1, render.resX, 1 do
             if color == nil or color == 0 then
                 buffer:setPixel(x, y, 0, 0, 0, 0)
             else
                 local Color = vram.pallete[color]
-                buffer:setPixel(x, y, Color[1] / 255, Color[2] / 255, Color[3] / 255)
+                buffer:setPixel(x - 1, y - 1, Color[1] / 255, Color[2] / 255, Color[3] / 255)
             end
         end
     end
@@ -90,6 +92,5 @@ function render.createClearImageData(w, h, color)
     end
     return Image
 end
-
 
 return render
