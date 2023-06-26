@@ -1,6 +1,6 @@
 render = {
-    resX = 300,
-    resY = 200,
+    resX = 400,
+    resY = 300,
     bgColor = 39
 }
 
@@ -20,10 +20,15 @@ end
 
 --% the global render thread --
 function render.drawCall()
+    local W_Width, W_Height = love.graphics.getDimensions()
     screen = render.generateFrame()
+    love.graphics.setColor(0, 0, 0)
+    love.graphics.rectangle("fill", screenX, 10, screen:getWidth() * screenScale, screen:getHeight()  * screenScale)
+    love.graphics.setColor(1, 1, 1)
     screen:setFilter("nearest", "nearest")
     effect(function()
-        love.graphics.draw(screen, screenX, 10, 0, screenScale)
+        --love.graphics.draw(screen, screenX, 10, 0, screenScale)
+        love.graphics.draw(screen, 0, 0, 0, W_Width / screen:getWidth(), W_Height / screen:getHeight())
     end)
     if DEVMODE.screenBounds then
         love.graphics.rectangle("line", screenX, 10, screen:getWidth() * screenScale, screen:getHeight()  * screenScale)

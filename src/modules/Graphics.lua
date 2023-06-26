@@ -31,6 +31,7 @@ function graphics.newText(text, x, y, color)
 end
 
 function graphics.getTextSize(text)
+    assert(type(text) == "string", "[ERROR] :: Invalid type, expected 'string' got " .. type(text))
     return #text * 6
 end
 
@@ -47,6 +48,14 @@ end
 
 function graphics.loadSpriteBank(name)
     vram.buffer.bank = json.decode(love.data.decompress("string", "zlib", love.filesystem.read("baserom/" .. name .. ".spr")))
+end
+
+function graphics.loadFontBank(name)
+    vram.buffer.font = json.decode(love.data.decompress("string", "zlib", love.filesystem.read("baserom/" .. name .. ".chr")))
+end
+
+function graphics.getScreenDimentions()
+    return render.resX, render.resY
 end
 
 return graphics

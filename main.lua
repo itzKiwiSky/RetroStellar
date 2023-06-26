@@ -2,11 +2,13 @@ vram = require 'src.core.virtualization.VRAM'
 _version = "0.0.1"
 function love.load()
     --% third party libs --
+    hex = require 'src.core.components.Hex'
     json = require 'libraries.json'
+    lue = require 'libraries.lue'
     render = require 'src.core.Render'
     memory = require 'src.core.components.Memory'
     keyboard = require 'src.core.virtualization.Keyboard'
-    storage = require 'src.core.virtualization.Storage'
+    storagedvr = require 'src.core.virtualization.Storage'
     moonshine = require 'libraries.moonshine'
     gamestate = require 'libraries.gamestate'
     touchpad = require 'src.core.virtualization.Touchpad'
@@ -16,17 +18,13 @@ function love.load()
     effect = moonshine(moonshine.effects.crt)
     .chain(moonshine.effects.glow)
     .chain(moonshine.effects.scanlines)
-    .chain(moonshine.effects.vignette)
 
     effect.glow.strength = 5
-    effect.glow.min_luma = 0.5
+    effect.glow.min_luma = 0.7
     effect.scanlines.width = 1
     effect.scanlines.opacity = 0.5
-    effect.vignette.opacity = 0.3
-    effect.vignette.softness = 0.7
-    effect.vignette.radius = 0.4
 
-    storage.init()
+    storagedvr.init()
 
     --% addons loader --
     Addons = love.filesystem.getDirectoryItems("libraries/addons")
@@ -36,6 +34,8 @@ function love.load()
 
     --% api --
     stellarAPI = require 'src.modules.Stellar'
+
+    __updateShaders__()
 
     --% gamepad system --
     _gamepads = love.joystick.getJoysticks()
@@ -48,11 +48,11 @@ function love.load()
 
     DEVMODE = {
         screenBounds = false,
-        mobileTouchPad = true,
+        mobileTouchPad = false,
         showTouchpadButtons = false,
-        listObjects = true,
-        allowResolutionChange = true,
-        nativeResolution = {300, 200}
+        listObjects = false,
+        showMemory = true,
+        showFPS = true,
     }
 
     --% initialization folders --
@@ -63,7 +63,7 @@ function love.load()
     if love.filesystem.isFused() then
         dataFile = love.filesystem.getInfo(love.filesystem.getSourceBaseDirectory() .. "/data.pkg")
     else
-        dataFile = love.filesystem.getInfo("data.pkg")
+        dataFile = love.filesystem.getInfo("Build/instance/data.pkg")
     end
     
     if dataFile == nil then
@@ -81,7 +81,7 @@ function love.load()
         end
     else
         if love.filesystem.isFused() then
-            sucess = love.filesystem.mount(love.filesystem.getSourceBaseDirectory(), "baserom")
+            sucess = love.filesystem.mount(love.filesystem.getSourceBaseDirectory() .. "/lumina.fwm", "baserom")
             print(love.filesystem.getSourceBaseDirectory())
             --print(sucess)
         else
@@ -92,31 +92,38 @@ function love.load()
 
     --% load the default fontchr file --
     vram.buffer.font = json.decode(love.data.decompress("string", "zlib", love.filesystem.read("baserom/FONTCHR.chr")))
+
     --% load the rom logic --
     data = love.filesystem.load("baserom/boot.lua")
+
     --% initialize render stuff (create the first frame)
-    render.resX, render.resY = DEVMODE.nativeResolution[1], DEVMODE.nativeResolution[2]
     render.init()
     touchpad.init()
     pcall(data(), _init())
 end
 
 function love.draw()
-    local y = 15
+    render.drawCall()
+    pcall(data(), _render())
+    touchpad.render()
     if DEVMODE.listObjects then
+        local y = 15
         love.graphics.print(love.timer.getFPS())
         for _, spr in ipairs(vram.buffer.bank) do
             love.graphics.print("$" .. spr.name, 3, y)
             y = y + 15
         end
     end
-    render.drawCall()
-    pcall(data(), _render())
-    touchpad.render()
-    memory.render()
+    if DEVMODE.showMemory then
+        memory.render()
+    end
+    if DEVMODE.showFPS then
+        love.graphics.print(love.timer.getFPS())
+    end
 end
 
 function love.update(elapsed)
+    __updateShaders__()
     touchpad.update(elapsed)
     memory.update()
     pcall(data(), _update(elapsed))
@@ -128,22 +135,31 @@ function love.keypressed(k)
             pcall(data(), _keydown(k))
         end
     end
-    if DEVMODE.allowResolutionChange then
-        if k == "f9" then
-            render.resX = render.resX - 10
-        end
-        if k == "f10" then
-            render.resX = render.resX + 10
-        end
-        if k == "f11" then
-            render.resY = render.resY - 10
-        end
-        if k == "f12" then
-            render.resY = render.resY + 10
-        end
-    end
 end
 
-function gamepadpressed(joystick, button)
-    
+function love.gamepadpressed(joystick, button)
+    pcall(data(), _gamepadpressed(button))
+end
+
+---------------------------------------------
+
+function __updateShaders__()
+    if stellarAPI.storage.isSaveExist("__system__") then
+        local systemData = stellarAPI.storage.getSaveData("__system__")
+        if not systemData[1][1].value then
+            effect.disable("crt")
+        else
+            effect.enable("crt")
+        end
+        if not systemData[1][2].value then
+            effect.disable("glow")
+        else
+            effect.enable("glow")
+        end
+        if not systemData[1][3].value then
+            effect.disable("scanlines")
+        else
+            effect.enable("scanlines")
+        end
+    end
 end
