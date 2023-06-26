@@ -71,9 +71,8 @@ function storage.cloneSave(name)
 end
 
 function storage.removeAll()
-    for _, save in ipairs(saveData.partitions) do
-        table.remove(saveData.partitions, _)
-    end
+    saveData.partitions = {}
+    love.filesystem.remove("bin/slot.dbsys")
     --% sign the file --
     local saveFile = love.filesystem.newFile("bin/slot.dbsys", "w")
     saveFile:write(love.data.compress("string", "gzip", json.encode(saveData)))
