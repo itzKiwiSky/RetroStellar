@@ -1,7 +1,9 @@
 vram = require 'src.core.virtualization.VRAM'
-_version = "0.0.1"
+_version = love.filesystem.read(".version")
 function love.load()
     --% third party libs --
+    lovedownload = require 'libraries.LOVEDownloader'
+    Version = require 'libraries.version'
     hex = require 'src.core.components.Hex'
     json = require 'libraries.json'
     lue = require 'libraries.lue'
@@ -12,6 +14,8 @@ function love.load()
     moonshine = require 'libraries.moonshine'
     gamestate = require 'libraries.gamestate'
     touchpad = require 'src.core.virtualization.Touchpad'
+
+    --_compatibleVer = Version(_version, "0.0.2"):disallowed("0.0.1")
 
     love.graphics.setDefaultFilter("nearest", "nearest")
 
@@ -81,11 +85,11 @@ function love.load()
         end
     else
         if love.filesystem.isFused() then
-            sucess = love.filesystem.mount(love.filesystem.getSourceBaseDirectory() .. "/lumina.fwm", "baserom")
+            sucess = love.filesystem.mount(love.filesystem.getSourceBaseDirectory() .. "/lumina.fmw", "baserom")
             print(love.filesystem.getSourceBaseDirectory())
             --print(sucess)
         else
-            sucess = love.filesystem.mount("Build/instance", "baserom")
+            sucess = love.filesystem.mount("Build/instance/lumina.fmw", "baserom")
             --print(sucess)
         end
     end
