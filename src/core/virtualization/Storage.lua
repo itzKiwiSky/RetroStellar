@@ -1,4 +1,4 @@
-storage = {}
+Storage = {}
 
 profiler = require 'src.core.components.Profiler'
 
@@ -8,7 +8,7 @@ saveData = {
     partitions = {}
 }
 
-function storage.init()
+function Storage.init()
     local saveExist = love.filesystem.getInfo("bin/slot.dbsys")
     if saveExist == nil then
         local saveFile = love.filesystem.newFile("bin/slot.dbsys", "w")
@@ -18,9 +18,9 @@ function storage.init()
     saveData = json.decode(love.data.decompress("string", "gzip", love.filesystem.read("bin/slot.dbsys")))
 end
 
-function storage.createSave(name, data)
+function Storage.createSave(name, data)
     --% first check if save data exist
-    if storage.saveExist(name) then
+    if Storage.saveExist(name) then
         for _, save in ipairs(saveData.partitions) do
             if save.name == name then
                 save.data = data
@@ -43,9 +43,9 @@ function storage.createSave(name, data)
     saveFile:close()
 end
 
-function storage.removeSave(name)
+function Storage.removeSave(name)
     --% check if save exist --
-    if storage.saveExist(name) then
+    if Storage.saveExist(name) then
         for _, save in ipairs(saveData.partitions) do
             if save.name == name then
                 table.remove(saveData.partitions, _)
@@ -58,11 +58,11 @@ function storage.removeSave(name)
     saveFile:close()
 end
 
-function storage.cloneSave(name)
+function Storage.cloneSave(name)
     --% check if save exist --
-    if storage.saveExist(name) then
-        local data = storage.getSaveData(name)
-        storage.createSave(name .. hex.generate(10), data)
+    if Storage.saveExist(name) then
+        local data = Storage.getSaveData(name)
+        Storage.createSave(name .. hex.generate(10), data)
     end
     --% sign the file --
     local saveFile = love.filesystem.newFile("bin/slot.dbsys", "w")
@@ -70,7 +70,7 @@ function storage.cloneSave(name)
     saveFile:close()
 end
 
-function storage.removeAll()
+function Storage.removeAll()
     saveData.partitions = {}
     love.filesystem.remove("bin/slot.dbsys")
     --% sign the file --
@@ -79,11 +79,11 @@ function storage.removeAll()
     saveFile:close()
 end
 
-function storage.getPartitions()
+function Storage.getPartitions()
     return saveData.partitions
 end
 
-function storage.getSaveData(name)
+function Storage.getSaveData(name)
     for _, save in ipairs(saveData.partitions) do
         if save.name == name then
             return save.data
@@ -91,7 +91,7 @@ function storage.getSaveData(name)
     end
 end
 
-function storage.saveExist(name)
+function Storage.saveExist(name)
     for _, save in ipairs(saveData.partitions) do
         if save.name == name then
             return true
@@ -100,4 +100,4 @@ function storage.saveExist(name)
     return false
 end
 
-return storage
+return Storage

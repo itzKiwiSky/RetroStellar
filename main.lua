@@ -2,7 +2,6 @@ vram = require 'src.core.virtualization.VRAM'
 _version = love.filesystem.read(".version")
 function love.load()
     --% third party libs --
-    lovedownload = require 'libraries.LOVEDownloader'
     Version = require 'libraries.version'
     hex = require 'src.core.components.Hex'
     json = require 'libraries.json'
@@ -14,8 +13,6 @@ function love.load()
     moonshine = require 'libraries.moonshine'
     gamestate = require 'libraries.gamestate'
     touchpad = require 'src.core.virtualization.Touchpad'
-
-    --_compatibleVer = Version(_version, "0.0.2"):disallowed("0.0.1")
 
     love.graphics.setDefaultFilter("nearest", "nearest")
 
@@ -47,7 +44,8 @@ function love.load()
     --% cool vars --
     hasPackage = true
     errorCodes = {
-        "0x0000001"
+        "0x001",
+        "0x002",
     }
 
     DEVMODE = {
@@ -89,11 +87,11 @@ function love.load()
             print(love.filesystem.getSourceBaseDirectory())
             --print(sucess)
         else
-            sucess = love.filesystem.mount("Build/instance/lumina.fmw", "baserom")
+            sucess = love.filesystem.mount("Build/instance/", "baserom")
             --print(sucess)
         end
     end
-
+    
     --% load the default fontchr file --
     vram.buffer.font = json.decode(love.data.decompress("string", "zlib", love.filesystem.read("baserom/FONTCHR.chr")))
 
