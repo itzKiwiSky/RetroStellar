@@ -1,11 +1,12 @@
 vram = require 'src.core.virtualization.VRAM'
 _version = love.filesystem.read(".version")
+love.filesystem.load("src/misc/Run.lua")()
+love.filesystem.load("src/misc/Errhandler.lua")()
 function love.load()
     --% third party libs --
     Version = require 'libraries.version'
     hex = require 'src.core.components.Hex'
     json = require 'libraries.json'
-    lue = require 'libraries.lue'
     render = require 'src.core.Render'
     memory = require 'src.core.components.Memory'
     keyboard = require 'src.core.virtualization.Keyboard'
@@ -13,6 +14,7 @@ function love.load()
     moonshine = require 'libraries.moonshine'
     gamestate = require 'libraries.gamestate'
     touchpad = require 'src.core.virtualization.Touchpad'
+    shack = require 'libraries.shack'
 
     love.graphics.setDefaultFilter("nearest", "nearest")
 
@@ -43,22 +45,22 @@ function love.load()
 
     --% cool vars --
     hasPackage = true
-    errorCodes = {
-        "0x001",
-        "0x002",
-    }
 
     DEVMODE = {
         screenBounds = false,
-        mobileTouchPad = false,
+        mobileTouchPad = true,
         showTouchpadButtons = false,
         listObjects = false,
         showMemory = true,
         showFPS = true,
+        crashOnF12 = false
     }
 
     --% initialization folders --
     love.filesystem.createDirectory("bin")
+    love.filesystem.createDirectory("bin/disks")
+    love.filesystem.createDirectory("bin/disks/A")
+    love.filesystem.createDirectory("bin/disks/A/projects")
 
     --% initialization stuff to the package --
 
@@ -97,15 +99,20 @@ function love.load()
 
     --% load the rom logic --
     data = love.filesystem.load("baserom/boot.lua")
+    data()
 
     --% initialize render stuff (create the first frame)
     render.init()
     touchpad.init()
+
     pcall(data(), _init())
 end
 
 function love.draw()
+    love.graphics.push()
+    shack:apply()
     render.drawCall()
+    love.graphics.pop()
     pcall(data(), _render())
     touchpad.render()
     if DEVMODE.listObjects then
@@ -126,21 +133,36 @@ end
 
 function love.update(elapsed)
     __updateShaders__()
+    shack:update(elapsed)
     touchpad.update(elapsed)
     memory.update()
     pcall(data(), _update(elapsed))
 end
 
 function love.keypressed(k)
-    for _, value in pairs(keyboard.keys) do
+    for _, value in ipairs(keyboard.keys) do
         if value == k then
             pcall(data(), _keydown(k))
+        end
+    end
+    if k == "f12" then
+        if DEVMODE.crashOnF12 then
+            error("The system causes a provisory crash")
         end
     end
 end
 
 function love.gamepadpressed(joystick, button)
     pcall(data(), _gamepadpressed(button))
+end
+
+function love.mousepressed(x, y, btn)
+    if love.system.getOS() == "Android" or love.system.getOS() == "iOS" or DEVMODE.mobileTouchPad then
+        touchpad.update()
+        if touchpad.getPressedButton() ~= nil then
+            pcall(data(), _virtualpadpressed(touchpad.getPressedButton()))
+        end
+    end
 end
 
 ---------------------------------------------

@@ -38,8 +38,11 @@ function touchpad.init()
         --% Neutral buttons --
         buttons[13] = {x = (love.graphics.getWidth() / 2) + (170 - 48), y = love.graphics.getHeight() - (128 - 48), w = 96, h = 32, touched = false, name = "nt_start"}
         buttons[14] = {x = (love.graphics.getWidth() / 2) - (170 + 48), y = love.graphics.getHeight() - (128 - 48), w = 96, h = 32, touched = false, name = "nt_select"}
+
     end
 end
+
+
 
 function touchpad.render()
     if love.system.getOS() == "Android" or love.system.getOS() == "iOS" or DEVMODE.mobileTouchPad then

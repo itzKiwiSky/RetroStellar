@@ -14,6 +14,10 @@ function input.gamepad.buttonPressed(player, button)
     return gamepad.isButtonDown(player, button)
 end
 
+function input.gamepad.getTotalPlayers()
+    return #_gamepads
+end
+
 function input.gamepad.getAxis(player, axis)
     gamepad.getAxis(player, axis)
 end

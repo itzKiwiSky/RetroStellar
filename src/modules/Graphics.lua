@@ -48,10 +48,20 @@ end
 
 function graphics.loadSpriteBank(name)
     vram.buffer.bank = json.decode(love.data.decompress("string", "zlib", love.filesystem.read("baserom/" .. name .. ".spr")))
+    --local file = love.filesystem.newFile("output.bin", "w")
+end
+
+function graphics.loadSpriteBankFromPath(name)
+    vram.buffer.bank = json.decode(love.data.decompress("string", "zlib", love.filesystem.read(name .. ".spr")))
+    --local file = love.filesystem.newFile("output.bin", "w")
 end
 
 function graphics.loadFontBank(name)
     vram.buffer.font = json.decode(love.data.decompress("string", "zlib", love.filesystem.read("baserom/" .. name .. ".chr")))
+end
+
+function graphics.loadFontBankFromPath(name)
+    vram.buffer.font = json.decode(love.data.decompress("string", "zlib", love.filesystem.read(name .. ".chr")))
 end
 
 function graphics.getScreenDimentions()

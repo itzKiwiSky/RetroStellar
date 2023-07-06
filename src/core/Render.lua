@@ -1,3 +1,5 @@
+vram = require 'src.core.virtualization.VRAM'
+
 render = {
     resX = 400,
     resY = 300,
@@ -22,9 +24,6 @@ end
 function render.drawCall()
     local W_Width, W_Height = love.graphics.getDimensions()
     screen = render.generateFrame()
-    love.graphics.setColor(0, 0, 0)
-    love.graphics.rectangle("fill", screenX, 10, screen:getWidth() * screenScale, screen:getHeight()  * screenScale)
-    love.graphics.setColor(1, 1, 1)
     screen:setFilter("nearest", "nearest")
     effect(function()
         --love.graphics.draw(screen, screenX, 10, 0, screenScale)
@@ -49,7 +48,6 @@ function render.clearFrame(color)
             end
         end
     end
-    --return love.graphics.newImage(buffer)
 end
 
 function render.generateFrame()
