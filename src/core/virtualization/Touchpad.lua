@@ -94,14 +94,14 @@ function touchpad.render()
         else
             love.graphics.setColor(1, 1, 1)
         end
-        love.graphics.draw(textures.buttons.diamond, love.graphics.getWidth() - (128 / (2 * 0.7)), love.graphics.getHeight() - (256 / (2 * 0.7)), 0, 0.7, 0.7)
+        love.graphics.draw(textures.buttons.note, love.graphics.getWidth() - (128 / (2 * 0.7)), love.graphics.getHeight() - (256 / (2 * 0.7)), 0, 0.7, 0.7)
         love.graphics.setColor(1, 1, 1)
         if touchpad.getPressedButton() == "ac_x" then
             love.graphics.setColor(0.5, 0.5, 0.5)
         else
             love.graphics.setColor(1, 1, 1)
         end
-        love.graphics.draw(textures.buttons.note, love.graphics.getWidth() - (384 / (2 * 0.7)), love.graphics.getHeight() - (256 / (2 * 0.7)), 0, 0.7, 0.7)
+        love.graphics.draw(textures.buttons.diamond, love.graphics.getWidth() - (384 / (2 * 0.7)), love.graphics.getHeight() - (256 / (2 * 0.7)), 0, 0.7, 0.7)
         love.graphics.setColor(1, 1, 1)
         if touchpad.getPressedButton() == "ac_a" then
             love.graphics.setColor(0.5, 0.5, 0.5)

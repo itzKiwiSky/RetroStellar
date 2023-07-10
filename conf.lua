@@ -4,5 +4,6 @@ function love.conf(w)
     w.window.title          =       "Stellar"
     w.console               =       true
     w.identity              =       "com.nxstudios.stellar"
-    w.window.resizable      =       false 
+    w.window.resizable      =       false
+    w.vsync                 =       false
 end

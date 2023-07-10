@@ -15,6 +15,8 @@ function love.load()
     gamestate = require 'libraries.gamestate'
     touchpad = require 'src.core.virtualization.Touchpad'
     shack = require 'libraries.shack'
+    apu = require 'src.core.virtualization.APU'
+
 
     love.graphics.setDefaultFilter("nearest", "nearest")
 
@@ -38,7 +40,14 @@ function love.load()
     --% api --
     stellarAPI = require 'src.modules.Stellar'
 
+
     __updateShaders__()
+
+    if stellarAPI.storage.isSaveExist("__system__") then
+        systemData = stellarAPI.storage.getSaveData("__system__")
+        --print(debug.getTableContent(systemData))
+        love.audio.setVolume(0.1 * tonumber(systemData[1][4].value))
+    end
 
     --% gamepad system --
     _gamepads = love.joystick.getJoysticks()
@@ -47,13 +56,14 @@ function love.load()
     hasPackage = true
 
     DEVMODE = {
-        screenBounds = false,
-        mobileTouchPad = true,
+        screenBounds = false,   -- legacy
+        mobileTouchPad = false,
         showTouchpadButtons = false,
         listObjects = false,
         showMemory = true,
         showFPS = true,
-        crashOnF12 = false
+        crashOnF12 = false,
+        convertToBinSave = true,
     }
 
     --% initialization folders --
@@ -88,18 +98,17 @@ function love.load()
             sucess = love.filesystem.mount(love.filesystem.getSourceBaseDirectory() .. "/lumina.fmw", "baserom")
             print(love.filesystem.getSourceBaseDirectory())
             --print(sucess)
-        else
-            sucess = love.filesystem.mount("Build/instance/", "baserom")
+        --else
+            --sucess = love.filesystem.mount("Build/instance/", "baserom")
             --print(sucess)
         end
     end
     
     --% load the default fontchr file --
-    vram.buffer.font = json.decode(love.data.decompress("string", "zlib", love.filesystem.read("baserom/FONTCHR.chr")))
+    vram.buffer.font = json.decode(love.data.decompress("string", "zlib", love.filesystem.read("BIOS/FONTCHR.chr")))
 
     --% load the rom logic --
-    data = love.filesystem.load("baserom/boot.lua")
-    data()
+    data = love.filesystem.load("BIOS/boot.lua")
 
     --% initialize render stuff (create the first frame)
     render.init()
