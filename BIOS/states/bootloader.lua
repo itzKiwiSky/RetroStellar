@@ -74,6 +74,9 @@ function loader:_keydown(k)
     if k == "f1" then
         gamestate.switch(savemngr)
     end
+    if k == "f2" then
+        gamestate.switch(debugscreen)
+    end
     if k == "escape" then
         stellarAPI.system.shutdown()
     end

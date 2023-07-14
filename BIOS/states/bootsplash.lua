@@ -80,7 +80,7 @@ function splash:_update(elapsed)
     end
 end
 
-function splash:_keypressed(k)
+function splash:_keydown(k)
     
 end
 

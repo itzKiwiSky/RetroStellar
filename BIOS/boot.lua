@@ -14,6 +14,7 @@ function _init()
     credits = require 'BIOS.states.credits'
     savemngr = require 'BIOS.states.savemngr'
     updatewarn = require 'BIOS.states.updatewarn'
+    debugscreen = require 'BIOS.states.debugstate'
 
     print("-===#####[ RetroStellar ]#####===-")
 
