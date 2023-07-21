@@ -24,7 +24,7 @@ function apu.loadSong(path)
     else
         apu.songData = json.decode(love.data.decompress("string", "zlib", love.filesystem.read(path)))
     end
-    print("song loaded")
+    --print("song loaded")
     apu.Channels.square = apu.songData.sections[apu.Pointer.section][1]
     apu.Channels.sine = apu.songData.sections[apu.Pointer.section][2]
     apu.Channels.triangle = apu.songData.sections[apu.Pointer.section][3]
@@ -34,7 +34,7 @@ function apu.loadSong(path)
 end
 
 function apu.play()
-    print("playing")
+    --print("playing")
     apu.Pointer.timer = 0
     apu.Pointer.position = 1
     apu.Pointer.section = 1
@@ -47,7 +47,7 @@ end
 
 function apu.update(elapsed)
     if apu.Pointer.isPlaying then
-        print("updating")
+        --print("updating")
         apu.Channels.square = apu.songData.sections[apu.Pointer.section][1]
         apu.Channels.sine = apu.songData.sections[apu.Pointer.section][2]
         apu.Channels.triangle = apu.songData.sections[apu.Pointer.section][3]
@@ -86,7 +86,7 @@ function apu.update(elapsed)
                         apu.Pointer.position = 1
                         apu.Pointer.section = 1
                         apu.Pointer.isPlaying = false
-                        print("stop")
+                        --print("stop")
                     end
                 end
             end

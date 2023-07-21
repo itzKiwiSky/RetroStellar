@@ -5,5 +5,4 @@ function love.conf(w)
     w.console               =       true
     w.identity              =       "com.nxstudios.stellar"
     w.window.resizable      =       false
-    w.vsync                 =       false
 end

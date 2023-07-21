@@ -81,34 +81,31 @@ function love.load()
     end
     
     if dataFile == nil then
-        hasPackage = false
+        hasPackage = true
     end
 
     if hasPackage then
         if love.filesystem.isFused() then
             sucess = love.filesystem.mount(love.filesystem.getSourceBaseDirectory() .. "/data.pkg", "baserom")
-            print(love.filesystem.getSourceBaseDirectory())
-            print(sucess)
+            
+            vram.buffer.font = json.decode(love.data.decompress("string", "zlib", love.filesystem.read("baserom/FONTCHR.chr")))
+            vram.buffer.bank = json.decode(love.data.decompress("string", "zlib", love.filesystem.read("baserom/SPRCHR.spr")))
+            data = love.filesystem.load("baserom/boot.lua")
         else
-            sucess = love.filesystem.mount("Build/instance/data.pkg", "baserom")
-            print(sucess)
+            sucess = love.filesystem.mount("Build/instance", "baserom")
+
+            vram.buffer.font = json.decode(love.data.decompress("string", "zlib", love.filesystem.read("baserom/FONTCHR.chr")))
+            vram.buffer.bank = json.decode(love.data.decompress("string", "zlib", love.filesystem.read("baserom/SPRCHR.spr")))
+            data = love.filesystem.load("baserom/boot.lua")
         end
     else
-        if love.filesystem.isFused() then
-            sucess = love.filesystem.mount(love.filesystem.getSourceBaseDirectory() .. "/lumina.fmw", "baserom")
-            print(love.filesystem.getSourceBaseDirectory())
-            --print(sucess)
-        --else
-            --sucess = love.filesystem.mount("Build/instance/", "baserom")
-            --print(sucess)
-        end
-    end
-    
-    --% load the default fontchr file --
-    vram.buffer.font = json.decode(love.data.decompress("string", "zlib", love.filesystem.read("BIOS/FONTCHR.chr")))
+        --% load the default fontchr file --
+        vram.buffer.font = json.decode(love.data.decompress("string", "zlib", love.filesystem.read("BIOS/FONTCHR.chr")))
 
-    --% load the rom logic --
-    data = love.filesystem.load("BIOS/boot.lua")
+        --% load the rom logic --
+        data = love.filesystem.load("BIOS/boot.lua")
+    end
+
 
     --% initialize render stuff (create the first frame)
     render.init()
