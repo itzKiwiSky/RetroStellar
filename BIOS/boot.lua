@@ -16,8 +16,6 @@ function _init()
     updatewarn = require 'BIOS.states.updatewarn'
     debugscreen = require 'BIOS.states.debugstate'
 
-    print("-===#####[ RetroStellar ]#####===-")
-
     stellarAPI.graphics.loadSpriteBankFromPath("BIOS/SPRCHR")
 
     gamestate.registerEvents()

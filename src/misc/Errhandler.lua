@@ -46,8 +46,8 @@ function love.errorhandler(msg)
     --local errorText = string.split(traceback, "\n")
 
     --vram.buffer.font = fontdata
-    graphics.loadFontBankFromPath("resources/data/FONTCHR")
-    graphics.loadSpriteBankFromPath("resources/data/SPRCHR")
+    stellarAPI.graphics.loadFontBankFromPath("resources/data/FONTCHR")
+    stellarAPI.graphics.loadSpriteBankFromPath("resources/data/SPRCHR")
 
     function draw()
         local txtY = 45
