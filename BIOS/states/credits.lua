@@ -51,7 +51,7 @@ function nodisk:enter()
             }
         },
         {
-            name = "",
+            name = "bru",
             color = 34,
             heart = {
                 enable = false,

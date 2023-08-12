@@ -62,8 +62,7 @@ function love.load()
         listObjects = false,
         showMemory = false,
         showFPS = false,
-        crashOnF12 = true,
-        convertToBinSave = true,
+        crashOnF12 = false,
     }
 
     --% initialization folders --
@@ -147,11 +146,11 @@ function love.draw()
 end
 
 function love.update(elapsed)
+    pcall(data(), _update(elapsed))
     __updateShaders__()
     shack:update(elapsed)
     touchpad.update(elapsed)
     memory.update()
-    pcall(data(), _update(elapsed))
 end
 
 function love.keypressed(k)

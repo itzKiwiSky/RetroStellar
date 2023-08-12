@@ -12,7 +12,6 @@ function loader:enter()
         {7, 9},
         {9, 7},
     }
-
     SW, SH = stellarAPI.graphics.getScreenDimentions()
 
     cstate = 1
