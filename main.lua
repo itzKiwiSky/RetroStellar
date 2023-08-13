@@ -2,6 +2,7 @@ vram = require 'src.core.virtualization.VRAM'
 _version = love.filesystem.read(".version")
 --love.filesystem.load("src/misc/Run.lua")()
 --love.filesystem.load("src/misc/Errhandler.lua")()
+require('src.misc.Sandbox')()
 
 print("-===#####[ RetroStellar ]#####===-")
 function love.load()
@@ -57,7 +58,7 @@ function love.load()
 
     DEVMODE = {
         screenBounds = false,   --:: legacy ::--
-        mobileTouchPad = false,
+        mobileTouchPad = true,
         showTouchpadButtons = false,
         listObjects = false,
         showMemory = false,
