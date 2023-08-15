@@ -1,6 +1,6 @@
-Storage = {}
+local Storage = {}
 
-profiler = require 'src.core.components.Profiler'
+local profiler = require 'src.core.components.Profiler'
 
 saveData = {
     metaname = "Stellar-Memory-Slot",

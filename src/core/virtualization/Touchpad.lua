@@ -1,6 +1,6 @@
-touchpad = {}
+local touchpad = {}
 
-buttons = {}
+local buttons = {}
 
 function touchpad.init()
     --% try initialization if OSes match

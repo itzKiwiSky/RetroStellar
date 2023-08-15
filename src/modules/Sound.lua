@@ -1,15 +1,15 @@
-sound = {}
+astroAPI.sound = {}
 
-function sound.load(songfile)
+function astroAPI.sound.load(songfile)
     apu.loadSong(songfile)
 end
 
-function sound.play()
+function astroAPI.sound.play()
     apu.play()
 end
 
-function sound.update()
+function astroAPI.sound.update()
     apu.update()
 end
 
-return sound
+return astroAPI.sound

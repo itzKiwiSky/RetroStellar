@@ -1,4 +1,4 @@
-profiler = {}
+local profiler = {}
 
 function profiler.measure(tbl)
     local file = love.filesystem.newFile(".profiler", "w")

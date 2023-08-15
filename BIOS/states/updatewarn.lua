@@ -1,4 +1,4 @@
-warn = {}
+local warn = {}
 
 function warn:enter()
     littleLogo = {
@@ -17,7 +17,7 @@ function warn:enter()
     texts = {
         "Looks like your system is outdated",
         "Please got to the github page",
-        "to get the lastest release of retrostellar",
+        "to get the lastest release of retroastro",
         " ",
         " ",
         " ",
@@ -31,12 +31,12 @@ function warn:_render()
     local txtY = 60
     for y = 1, #littleLogo, 1 do
         for x = 1, #littleLogo[y], 1 do
-            stellarAPI.graphics.newSprite("logo_low" .. tostring(littleLogo[y][x]), (x * 16) - 10, (y * 16) - 10)
+            astroAPI.graphics.newSprite("logo_low" .. tostring(littleLogo[y][x]), (x * 16) - 10, (y * 16) - 10)
         end
     end
-    stellarAPI.graphics.newText("RetroStellar", 48, 16, colorStates[cstate])
+    astroAPI.graphics.newText("retroastro", 48, 16, colorStates[cstate])
     for t = 1, #texts, 1 do
-        stellarAPI.graphics.newText(texts[t], 30, txtY, 34)
+        astroAPI.graphics.newText(texts[t], 30, txtY, 34)
         txtY = txtY + 9
     end
 end
@@ -54,19 +54,19 @@ end
 
 function warn:_keydown(k)
     if k == "return" then
-        stellarAPI.system.shutdown()
+        astroAPI.system.shutdown()
     end
 end
 
 function warn:_gamepadpressed(button)
     if button == "start" then
-        stellarAPI.system.shutdown()
+        astroAPI.system.shutdown()
     end
 end
 
 function warn:_virtualpadpressed(button)
     if button == "nt_start" then
-        stellarAPI.system.shutdown()
+        astroAPI.system.shutdown()
     end
 end
 

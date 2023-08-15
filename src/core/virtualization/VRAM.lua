@@ -1,4 +1,4 @@
-vram = {}
+local vram = {}
 
 --% VRAM Specifications --
 --[[
@@ -55,5 +55,30 @@ vram.buffer = {
     font = {},  --% this bank can only store font chrs at 8x8 maximum
     stack = {}
 }
+
+function vram.update()
+    if #vram.buffer.stack > 512 then
+        table.remove(vram.buffer.stack, 1)
+    end
+end
+
+function vram.getInfo()
+    return {
+        chars = _countTypes("char"),
+        sprites = _countTypes("sprite"),
+        shapes = _countTypes("shape"),
+        totalObjects = #vram.buffer.stack,
+    }
+end
+
+function _countTypes(_type)
+    local count = 0
+    for o = 1 ,#vram.buffer.stack, 1 do
+        if vram.buffer.stack[o].type == _type then
+            count = count + 1
+        end
+    end
+    return count
+end
 
 return vram

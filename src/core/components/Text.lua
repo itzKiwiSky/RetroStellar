@@ -1,4 +1,4 @@
-fontText = {}
+local fontText = {}
 
 function fontText.newText(text, x, y, color)
     --print("text created")

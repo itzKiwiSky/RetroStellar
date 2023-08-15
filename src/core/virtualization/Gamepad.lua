@@ -1,4 +1,4 @@
-gamepad = {}
+local gamepad = {}
 
 function gamepad.isButtonDown(player, button)
     if #_gamepads > 0 then

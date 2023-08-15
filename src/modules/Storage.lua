@@ -1,15 +1,15 @@
-storage = {}
+astroAPI.storage = {}
 
-function storage.createSave(name, data)
+function astroAPI.storage.createSave(name, data)
     storagedvr.createSave(name, data)
 end
 
-function storage.getSaveData(name)
+function astroAPI.storage.getSaveData(name)
     return storagedvr.getSaveData(name)
 end
 
-function storage.isSaveExist(name)
+function astroAPI.storage.isSaveExist(name)
     return storagedvr.saveExist(name)
 end
 
-return storage
+return astroAPI.storage

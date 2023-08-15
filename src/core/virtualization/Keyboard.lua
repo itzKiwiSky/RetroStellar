@@ -1,4 +1,4 @@
-keyboard = {}
+local keyboard = {}
 
 -- allows for devs get only specifics keys --
 keyboard.keys = {

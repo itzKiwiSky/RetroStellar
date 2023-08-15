@@ -12,12 +12,12 @@ function loader:enter()
         {7, 9},
         {9, 7},
     }
-    SW, SH = stellarAPI.graphics.getScreenDimentions()
+    SW, SH = astroAPI.graphics.getScreenDimentions()
 
     cstate = 1
     timer = 0
     curValue = 0
-    for s = 1, 30, 1 do
+    for s = 1, 20, 1 do
         createStarsInit()
     end
 end
@@ -25,29 +25,30 @@ end
 function loader:_render()
     for _, star in ipairs(stars) do
         if star.variations == 1 then
-            stellarAPI.graphics.newSprite("star1", star.x, star.y)
+            astroAPI.graphics.newSprite("star1", star.x, star.y)
         elseif star.variations == 2 then
-            stellarAPI.graphics.newSprite("star2", star.x, star.y)
+            astroAPI.graphics.newSprite("star2", star.x, star.y)
         end
     end
     for y = 1, #logo, 1 do
         for x = 1, #logo[y], 1 do
-            stellarAPI.graphics.newSprite("logo" .. tostring(logo[y][x]), 155 + (x * 16), 90 + (y * 16), 1)
+            astroAPI.graphics.newSprite("logo" .. tostring(logo[y][x]), 155 + (x * 16), 90 + (y * 16), 1)
         end
     end
-    stellarAPI.graphics.newText("RetroStellar", 165, 220, colorStates[cstate])
-    stellarAPI.graphics.newText("[delete] [start] config", 0, SH - 8, 34)
-    stellarAPI.graphics.newText("[f1] [select] save manager", 0, SH - 16, 34)
-    stellarAPI.graphics.newText("[home] credits", 0, SH - 24, 34)
-    stellarAPI.graphics.newText("[esc] shutdown", 0, SH - 32, 34)
-    stellarAPI.graphics.newText("No disk has found! please insert a valid disk.", 0, 0)
-    stellarAPI.graphics.newText("Version " .. _version, SW - stellarAPI.graphics.getTextSize("Version " .. _version), SH - 8, 34)
+    astroAPI.graphics.newText("RetroAstro", 165, 220, colorStates[cstate])
+    astroAPI.graphics.newText("[delete] [start] config", 0, SH - 8, 34)
+    astroAPI.graphics.newText("[f1] [select] save manager", 0, SH - 16, 34)
+    astroAPI.graphics.newText("[f4] credits", 0, SH - 24, 34)
+    astroAPI.graphics.newText("[esc] shutdown", 0, SH - 32, 34)
+    astroAPI.graphics.newText("[f3] gamelib", 0, SH - 39, 34)
+    astroAPI.graphics.newText("No disk has found! please insert a valid disk.", 10, 10)
+    astroAPI.graphics.newText("Version " .. _version, SW - astroAPI.graphics.getTextSize("Version " .. _version), SH - 8, 34)
 end
 
 function loader:_update(elapsed)
-    stellarAPI.sound.update(elapsed)
+    astroAPI.sound.update(elapsed)
     timer = timer + 1
-    if timer > 10 then
+    if timer >= 30 then
         createStars()
         timer = 0
         cstate = cstate + 1
@@ -67,7 +68,7 @@ function loader:_keydown(k)
     if k == "delete" then
         gamestate.switch(setup)
     end
-    if k == "home" then
+    if k == "f4" then
         gamestate.switch(credits)
     end
     if k == "f1" then
@@ -76,8 +77,11 @@ function loader:_keydown(k)
     if k == "f2" then
         gamestate.switch(debugscreen)
     end
+    if k == "f3" then
+        gamestate.switch(gamelib)
+    end
     if k == "escape" then
-        stellarAPI.system.shutdown()
+        astroAPI.system.shutdown()
     end
 end
 
@@ -87,11 +91,11 @@ function loader:_gamepadpressed(button)
     elseif button == "back" then
         gamestate.switch(savemngr)
     else
-        for p = 1, stellarAPI.input.gamepad.getTotalPlayers(), 1 do
-            stellarAPI.input.gamepad.vibrate(p, "both", 1, 0.5)
+        for p = 1, astroAPI.input.gamepad.getTotalPlayers(), 1 do
+            astroAPI.input.gamepad.vibrate(p, "both", 1, 0.5)
         end
-        stellarAPI.sound.load("BIOS/hit.smf")
-        stellarAPI.sound.play()
+        astroAPI.sound.load("BIOS/hit.smf")
+        astroAPI.sound.play()
     end
 end
 
@@ -101,9 +105,9 @@ function loader:_virtualpadpressed(button)
     elseif button == "nt_select" then
         gamestate.switch(savemngr)
     else
-        stellarAPI.system.vibrate(1)
-        stellarAPI.sound.load("BIOS/hit.smf")
-        stellarAPI.sound.play()
+        astroAPI.system.vibrate(1)
+        astroAPI.sound.load("BIOS/hit.smf")
+        astroAPI.sound.play()
     end
 end
 

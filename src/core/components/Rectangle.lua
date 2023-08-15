@@ -1,4 +1,4 @@
-rectangle = {}
+local rectangle = {}
 
 function rectangle.newRectangle(color, x, y, w, h)
     local Rectangle = {}

@@ -1,4 +1,4 @@
-memory = {}
+local memory = {}
 
 local memoryfont = love.graphics.newFont(15)
 memory.MemoryUsage = ""

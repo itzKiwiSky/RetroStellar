@@ -1,7 +1,7 @@
-savemnrg = {}
+local savemnrg = {}
 
 function savemnrg:enter()
-    stellarAPI.graphics.setBackgroundColor(7)
+    astroAPI.graphics.setBackgroundColor(7)
     partitions = storagedvr.getPartitions()
     --print(debug.getTableContent(partitions))
 
@@ -35,39 +35,39 @@ function savemnrg:enter()
         "[f2] - clone",
     }
 
-    SW, SH = stellarAPI.graphics.getScreenDimentions()
+    SW, SH = astroAPI.graphics.getScreenDimentions()
 end
 
 function savemnrg:_render()
     if not erasingScreen then
-        stellarAPI.graphics.newRectangle(34, 0, 0, SW, 10)
-        stellarAPI.graphics.newRectangle(34, 0, SH - 10, SW, 10)
-        stellarAPI.graphics.newRectangle(39, SW - 90, 40, 90, 190)
-        stellarAPI.graphics.newRectangle(35, SW - 95, 35, 90, 190)
+        astroAPI.graphics.newRectangle(34, 0, 0, SW, 10)
+        astroAPI.graphics.newRectangle(34, 0, SH - 10, SW, 10)
+        astroAPI.graphics.newRectangle(39, SW - 90, 40, 90, 190)
+        astroAPI.graphics.newRectangle(35, SW - 95, 35, 90, 190)
         local nameY = 20
         local opY = 80
         if #display > 0 then
             for renderList = pageCount, maxPage, 1 do
                 --print(renderList, pageNum, maxPage)
                 if display[renderList].selected then
-                    stellarAPI.graphics.newRectangle(34, 22, nameY - 1, stellarAPI.graphics.getTextSize(display[renderList].name) + 2, 9)
-                    stellarAPI.graphics.newRectangle(34, 4, nameY - 6, 18, 18)
+                    astroAPI.graphics.newRectangle(34, 22, nameY - 1, astroAPI.graphics.getTextSize(display[renderList].name) + 2, 9)
+                    astroAPI.graphics.newRectangle(34, 4, nameY - 6, 18, 18)
                 end
                 if display[renderList].itemClicked then
                     if Color then
-                        stellarAPI.graphics.newRectangle(1, 22, nameY - 1, stellarAPI.graphics.getTextSize(display[renderList].name) + 2, 9)
-                        stellarAPI.graphics.newRectangle(1, 4, nameY - 6, 18, 18)
+                        astroAPI.graphics.newRectangle(1, 22, nameY - 1, astroAPI.graphics.getTextSize(display[renderList].name) + 2, 9)
+                        astroAPI.graphics.newRectangle(1, 4, nameY - 6, 18, 18)
                     else
-                        stellarAPI.graphics.newRectangle(34, 22, nameY - 1, stellarAPI.graphics.getTextSize(display[renderList].name) + 2, 9)
-                        stellarAPI.graphics.newRectangle(34, 4, nameY - 6, 18, 18)
+                        astroAPI.graphics.newRectangle(34, 22, nameY - 1, astroAPI.graphics.getTextSize(display[renderList].name) + 2, 9)
+                        astroAPI.graphics.newRectangle(34, 4, nameY - 6, 18, 18)
                     end
                 end
                
-                stellarAPI.graphics.newText(display[renderList].name, 23, nameY, 34)
+                astroAPI.graphics.newText(display[renderList].name, 23, nameY, 34)
                 if display[renderList].name == "__system__" then
-                    stellarAPI.graphics.newSprite("warning", 5, nameY - 5)
+                    astroAPI.graphics.newSprite("warning", 5, nameY - 5)
                 else
-                    stellarAPI.graphics.newSprite("disk_icon", 5, nameY - 5)
+                    astroAPI.graphics.newSprite("disk_icon", 5, nameY - 5)
                 end 
                 nameY = nameY + 19
             end
@@ -75,43 +75,43 @@ function savemnrg:_render()
         
         
             if display[item].name == "__system__" then
-                stellarAPI.graphics.newText("reserved for", SW - 93, 75, 34)
-                stellarAPI.graphics.newText("system", SW - 93, 82, 34)
+                astroAPI.graphics.newText("reserved for", SW - 93, 75, 34)
+                astroAPI.graphics.newText("system", SW - 93, 82, 34)
             end
         
             if itemSelected then
                 for o = 1, #options, 1 do
-                    stellarAPI.graphics.newText(options[o], SW - 93, opY, 34)
+                    astroAPI.graphics.newText(options[o], SW - 93, opY, 34)
                     opY = opY + 9
                 end
             end
     
-            stellarAPI.graphics.newText(display[item].name, SW - 93, 45, 34)
-            stellarAPI.graphics.newText("size :" .. display[item]._size, SW - 93, 60, 34)
+            astroAPI.graphics.newText(display[item].name, SW - 93, 45, 34)
+            astroAPI.graphics.newText("size :" .. display[item]._size, SW - 93, 60, 34)
         else
-            stellarAPI.graphics.newText("No saves here", SW - 93, 82, 34)
+            astroAPI.graphics.newText("No saves here", SW - 93, 82, 34)
         end
         if eraseConfirmation then
-            stellarAPI.graphics.newRectangle(39, 130, 110, 150, 100)
-            stellarAPI.graphics.newRectangle(35, 120, 100, 150, 100)
-            stellarAPI.graphics.newText("Are you sure you want", 130, 105, 34)
-            stellarAPI.graphics.newText("erase all save data", 136, 115, 34)
-            stellarAPI.graphics.newText("[f1] - yes / [f2] - no ", 125, 180, 34)
+            astroAPI.graphics.newRectangle(39, 130, 110, 150, 100)
+            astroAPI.graphics.newRectangle(35, 120, 100, 150, 100)
+            astroAPI.graphics.newText("Are you sure you want", 130, 105, 34)
+            astroAPI.graphics.newText("erase all save data", 136, 115, 34)
+            astroAPI.graphics.newText("[f1] - yes / [f2] - no ", 125, 180, 34)
         end
-        stellarAPI.graphics.newText("[f3] - format save disk", 20, SH - 9, 34)
+        astroAPI.graphics.newText("[f3] - format save disk", 20, SH - 9, 34)
     else
-        stellarAPI.graphics.newText("Erasing data...", 0, 0, 34)
+        astroAPI.graphics.newText("Erasing data...", 0, 0, 34)
 
         local txtY = 120
         for t = 1, #erasingWarning, 1 do
-            stellarAPI.graphics.newText(erasingWarning[t], 160, txtY, 34)
+            astroAPI.graphics.newText(erasingWarning[t], 160, txtY, 34)
             txtY = txtY + 9
         end
 
         --% progress --
-        stellarAPI.graphics.newRectangle(37, 10, SH - 10, SW - 20, 10)
-        stellarAPI.graphics.newRectangle(10, 10, SH - 10, math.floor((SW - 20) * (erasingValue / 100)), 10)
-        stellarAPI.graphics.newText("Progress [" .. tostring(math.floor(erasingValue)) .. "]", 30, 280, 34)
+        astroAPI.graphics.newRectangle(37, 10, SH - 10, SW - 20, 10)
+        astroAPI.graphics.newRectangle(10, 10, SH - 10, math.floor((SW - 20) * (erasingValue / 100)), 10)
+        astroAPI.graphics.newText("Progress [" .. tostring(math.floor(erasingValue)) .. "]", 30, 280, 34)
     end
 end
 
@@ -197,7 +197,7 @@ function savemnrg:_keydown(k)
     
         if not itemSelected then
             if k == "escape" then
-                stellarAPI.graphics.setBackgroundColor(39)
+                astroAPI.graphics.setBackgroundColor(39)
                 gamestate.switch(loader)
             end
             if k == "up" then
@@ -283,7 +283,7 @@ function savemnrg:_gamepadpressed(button)
     
         if not itemSelected then
             if button == "b" then
-                stellarAPI.graphics.setBackgroundColor(39)
+                astroAPI.graphics.setBackgroundColor(39)
                 gamestate.switch(loader)
             end
             if button == "dpup" then
@@ -369,7 +369,7 @@ function savemnrg:_virtualpadpressed(button)
     
         if not itemSelected then
             if button == "ac_b" then
-                stellarAPI.graphics.setBackgroundColor(39)
+                astroAPI.graphics.setBackgroundColor(39)
                 gamestate.switch(loader)
             end
             if button == "dp_up" then

@@ -1,4 +1,4 @@
-sprite = {}
+local sprite = {}
 
 function sprite.newSprite(name, x, y)
     for _, spr in ipairs(vram.buffer.bank) do

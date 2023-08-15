@@ -1,4 +1,4 @@
-hex = {}
+local hex = {}
 
 function _just(character, length)
     local result = ""

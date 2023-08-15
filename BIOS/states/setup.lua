@@ -1,7 +1,7 @@
-setup = {}
+local setup = {}
 
 function setup:enter()
-    stellarAPI.graphics.setBackgroundColor(7)
+    astroAPI.graphics.setBackgroundColor(7)
 
     currentTab = 1
     currentItem = 1
@@ -86,45 +86,51 @@ function setup:enter()
                         max = 10,
                         value = 6,
                     },
+                    {
+                        name = "bootloader sound",
+                        type = "boolean",
+                        selected = false,
+                        value = true,
+                    },
                 }
             }
         }
     }
     config = {}
-    if stellarAPI.storage.isSaveExist("__system__") then
+    if astroAPI.storage.isSaveExist("__system__") then
         print("save exist")
-        config = stellarAPI.storage.getSaveData("__system__")
+        config = astroAPI.storage.getSaveData("__system__")
         __loadConfig()
     else
         print("creating save")
         __generateConfigValues()
-        stellarAPI.storage.createSave("__system__", config)
+        astroAPI.storage.createSave("__system__", config)
     end
 end
 
 function setup:_render()
     local tabX = 15
     local itemY = 30
-    stellarAPI.graphics.newRectangle(34, 0, 16, 400, 1)
-    stellarAPI.graphics.newRectangle(34, 0, 284, 400, 1)
-    stellarAPI.graphics.newRectangle(34, 10, 0, 1, 300)
-    stellarAPI.graphics.newRectangle(34, 390, 0, 1, 300)
+    astroAPI.graphics.newRectangle(34, 0, 16, 400, 1)
+    astroAPI.graphics.newRectangle(34, 0, 284, 400, 1)
+    astroAPI.graphics.newRectangle(34, 10, 0, 1, 300)
+    astroAPI.graphics.newRectangle(34, 390, 0, 1, 300)
     for _, item in ipairs(configList.tabs) do
         if item.selected then
-            stellarAPI.graphics.newRectangle(34, tabX - 1, 4, stellarAPI.graphics.getTextSize(item.name) + 2, 9)
+            astroAPI.graphics.newRectangle(34, tabX - 1, 4, astroAPI.graphics.getTextSize(item.name) + 2, 9)
             for _, tabitem in ipairs(item.content) do
                 if tabitem.selected then
-                    stellarAPI.graphics.newRectangle(34, 34, itemY - 1, stellarAPI.graphics.getTextSize(tabitem.name .. " : " .. tostring(tabitem.value)) + 2, 9)
+                    astroAPI.graphics.newRectangle(34, 34, itemY - 1, astroAPI.graphics.getTextSize(tabitem.name .. " : " .. tostring(tabitem.value)) + 2, 9)
                 end
-                stellarAPI.graphics.newText(tabitem.name .. " : " .. tostring(tabitem.value), 35, itemY, 34)
+                astroAPI.graphics.newText(tabitem.name .. " : " .. tostring(tabitem.value), 35, itemY, 34)
                 itemY = itemY + 10
             end
         end
         maxY = itemY - 10
-        stellarAPI.graphics.newText(item.name, tabX, 5, 34)
-        tabX = (tabX + stellarAPI.graphics.getTextSize(item.name)) + 7
+        astroAPI.graphics.newText(item.name, tabX, 5, 34)
+        tabX = (tabX + astroAPI.graphics.getTextSize(item.name)) + 7
     end
-    stellarAPI.graphics.newSprite("arrow", 13, sprY - 4)
+    astroAPI.graphics.newSprite("arrow", 13, sprY - 4)
 end
 
 function setup:_update(elapsed)
@@ -212,9 +218,9 @@ function setup:_keydown(k)
     if k == "escape" then
         config = {}
         __generateConfigValues()
-        stellarAPI.storage.createSave("__system__", config)
+        astroAPI.storage.createSave("__system__", config)
         __updateShaders__()
-        stellarAPI.graphics.setBackgroundColor(39)
+        astroAPI.graphics.setBackgroundColor(39)
         gamestate.switch(loader)
     end
 end
@@ -260,9 +266,9 @@ function setup:_gamepadpressed(button)
     if button == "b" then
         config = {}
         __generateConfigValues()
-        stellarAPI.storage.createSave("__system__", config)
+        astroAPI.storage.createSave("__system__", config)
         __updateShaders__()
-        stellarAPI.graphics.setBackgroundColor(39)
+        astroAPI.graphics.setBackgroundColor(39)
         gamestate.switch(loader)
     end
 end
@@ -308,9 +314,9 @@ function setup:_virtualpadpressed(button)
     if button == "ac_b" then
         config = {}
         __generateConfigValues()
-        stellarAPI.storage.createSave("__system__", config)
+        astroAPI.storage.createSave("__system__", config)
         __updateShaders__()
-        stellarAPI.graphics.setBackgroundColor(39)
+        astroAPI.graphics.setBackgroundColor(39)
         gamestate.switch(loader)
     end
 end

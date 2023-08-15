@@ -1,4 +1,4 @@
-debugscreen = {}
+local debugscreen = {}
 
 function debugscreen:enter()
     tiles = {}
@@ -13,7 +13,7 @@ function debugscreen:_render()
     local x = 0
     local y = 0
     for t = 1, #tiles, 1 do
-        stellarAPI.graphics.newSprite(tiles[t], x, y)
+        astroAPI.graphics.newSprite(tiles[t], x, y)
         x = x + 16
         if x >= 400 then
             x = 0

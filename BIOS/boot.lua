@@ -15,8 +15,9 @@ function _init()
     savemngr = require 'BIOS.states.savemngr'
     updatewarn = require 'BIOS.states.updatewarn'
     debugscreen = require 'BIOS.states.debugstate'
+    gamelib = require 'BIOS.states.gamelib'
 
-    stellarAPI.graphics.loadSpriteBankFromPath("BIOS/SPRCHR")
+    astroAPI.graphics.loadSpriteBankFromPath("BIOS/SPRCHR")
 
     gamestate.registerEvents()
     if _needUpdate then

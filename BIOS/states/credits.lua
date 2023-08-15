@@ -1,4 +1,4 @@
-nodisk = {}
+local nodisk = {}
 
 function nodisk:enter()
     littleLogo = {
@@ -18,6 +18,10 @@ function nodisk:enter()
             heart = {
                 enable = true,
                 id = "th_heart",
+            },
+            emoji = {
+                enable = true,
+                id = "th_sonic"
             }
         },
         {
@@ -26,6 +30,9 @@ function nodisk:enter()
             heart = {
                 enable = true,
                 id = "fox_heart",
+            },
+            emoji = {
+                enable = false,
             }
         },
         {
@@ -33,12 +40,18 @@ function nodisk:enter()
             color = 34,
             heart = {
                 enable = false,
+            },
+            emoji = {
+                enable = false,
             }
         },
         {
             name = "agua-de-pica",
             color = 34,
             heart = {
+                enable = false,
+            },
+            emoji = {
                 enable = false,
             }
         },
@@ -48,6 +61,9 @@ function nodisk:enter()
             heart = {
                 enable = true,
                 id = "sapo_palhaco_tigre",
+            },
+            emoji = {
+                enable = false,
             }
         },
         {
@@ -55,12 +71,38 @@ function nodisk:enter()
             color = 34,
             heart = {
                 enable = false,
+            },
+            emoji = {
+                enable = false,
             }
         },
         {
             name = "",
             color = 34,
             heart = {
+                enable = false,
+            },
+            emoji = {
+                enable = false,
+            }
+        },
+        {
+            name = "",
+            color = 34,
+            heart = {
+                enable = false,
+            },
+            emoji = {
+                enable = false,
+            }
+        },
+        {
+            name = "",
+            color = 34,
+            heart = {
+                enable = false,
+            },
+            emoji = {
                 enable = false,
             }
         },
@@ -70,6 +112,9 @@ function nodisk:enter()
             heart = {
                 enable = true,
                 id = "choco_heart"
+            },
+            emoji = {
+                enable = false,
             }
         },
     }
@@ -82,15 +127,18 @@ function nodisk:_render()
     txtPosY = 50
     for y = 1, #littleLogo, 1 do
         for x = 1, #littleLogo[y], 1 do
-            stellarAPI.graphics.newSprite("logo_low" .. tostring(littleLogo[y][x]), (x * 16) - 10, (y * 16) - 10)
+            astroAPI.graphics.newSprite("logo_low" .. tostring(littleLogo[y][x]), (x * 16) - 10, (y * 16) - 10)
         end
     end
-    stellarAPI.graphics.newText("RetroStellar", 48, 16, colorStates[cstate])
-    stellarAPI.graphics.newText("dedicated to:", 50, 40, 34)
+    astroAPI.graphics.newText("RetroAstro", 48, 16, colorStates[cstate])
+    astroAPI.graphics.newText("dedicated to:", 50, 40, 34)
     for d = 1, #dedications, 1 do
-        stellarAPI.graphics.newText(dedications[d].name, 50, txtPosY + 5, dedications[d].color)
+        astroAPI.graphics.newText(dedications[d].name, 50, txtPosY + 5, dedications[d].color)
         if dedications[d].heart.enable then
-            stellarAPI.graphics.newSprite(dedications[d].heart.id, stellarAPI.graphics.getTextSize(dedications[d].name) + 80, txtPosY)
+            astroAPI.graphics.newSprite(dedications[d].heart.id, astroAPI.graphics.getTextSize(dedications[d].name) + 80, txtPosY)
+        end
+        if dedications[d].emoji.enable then
+            astroAPI.graphics.newSprite(dedications[d].emoji.id, astroAPI.graphics.getTextSize(dedications[d].name) + 100, txtPosY)
         end
         txtPosY = txtPosY + 18
     end

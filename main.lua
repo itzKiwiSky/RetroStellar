@@ -4,7 +4,16 @@ _version = love.filesystem.read(".version")
 --love.filesystem.load("src/misc/Errhandler.lua")()
 require('src.misc.Sandbox')()
 
-print("-===#####[ RetroStellar ]#####===-")
+--% api --
+astroAPI = {}
+require 'src.modules.Graphics'
+require 'src.modules.Storage'
+require 'src.modules.System'
+require 'src.modules.Input'
+require 'src.modules.Sound'
+require 'src.modules.Game'
+
+print("-===#####[ RetroAstro ]#####===-")
 function love.load()
     --% third party libs --
     Version = require 'libraries.version'
@@ -19,6 +28,7 @@ function love.load()
     touchpad = require 'src.core.virtualization.Touchpad'
     shack = require 'libraries.shack'
     apu = require 'src.core.virtualization.APU'
+    fontdata = require 'src.core.components.Fontdata'
 
     love.graphics.setDefaultFilter("nearest", "nearest")
 
@@ -39,13 +49,10 @@ function love.load()
         require("libraries.addons." .. string.gsub(Addons[addon], ".lua", ""))
     end
 
-    --% api --
-    stellarAPI = require 'src.modules.Stellar'
-
     __updateShaders__()
 
-    if stellarAPI.storage.isSaveExist("__system__") then
-        systemData = stellarAPI.storage.getSaveData("__system__")
+    if astroAPI.storage.isSaveExist("__system__") then
+        systemData = astroAPI.storage.getSaveData("__system__")
         --print(debug.getTableContent(systemData))
         love.audio.setVolume(0.1 * tonumber(systemData[1][4].value))
     end
@@ -58,7 +65,7 @@ function love.load()
 
     DEVMODE = {
         screenBounds = false,   --:: legacy ::--
-        mobileTouchPad = true,
+        mobileTouchPad = false,
         showTouchpadButtons = false,
         listObjects = false,
         showMemory = false,
@@ -147,6 +154,7 @@ function love.draw()
 end
 
 function love.update(elapsed)
+    vram.update()
     pcall(data(), _update(elapsed))
     __updateShaders__()
     shack:update(elapsed)
@@ -159,11 +167,14 @@ function love.keypressed(k)
         if value == k then
             pcall(data(), _keydown(k))
         end
-    end
-    if k == "f12" then
-        if DEVMODE.crashOnF12 then
-            error("The system causes a provisory crash")
+        if k == "f12" then
+            if DEVMODE.crashOnF12 then
+                error("The system causes a provisory crash")
+            end
         end
+    end
+    if k == "home" then
+        love.load()
     end
 end
 
@@ -226,14 +237,14 @@ function love.errorhandler(msg)
 
     }
 
-    SW, SH = graphics.getScreenDimentions()
+    SW, SH = astroAPI.graphics.getScreenDimentions()
     
     --local errorText = string.split(traceback, "\n")
 
     --vram.buffer.font = fontdata
 
-    stellarAPI.graphics.loadFontBankFromPath("resources/data/FONTCHR")
-    stellarAPI.graphics.loadSpriteBankFromPath("resources/data/SPRCHR")    
+    astroAPI.graphics.loadFontBankFromPath("resources/data/FONTCHR")
+    astroAPI.graphics.loadSpriteBankFromPath("resources/data/SPRCHR")    
 
     function draw()
         local txtY = 45
@@ -278,8 +289,8 @@ end
 ---------------------------------------------
 
 function __updateShaders__()
-    if stellarAPI.storage.isSaveExist("__system__") then
-        local systemData = stellarAPI.storage.getSaveData("__system__")
+    if astroAPI.storage.isSaveExist("__system__") then
+        local systemData = astroAPI.storage.getSaveData("__system__")
         if not systemData[1][1].value then
             effect.disable("crt")
         else

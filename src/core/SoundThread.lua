@@ -1,4 +1,4 @@
-soundthread = {} 
+local soundthread = {} 
 
 --[[
 tones = {

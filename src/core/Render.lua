@@ -1,6 +1,6 @@
-vram = require 'src.core.virtualization.VRAM'
+local vram = require 'src.core.virtualization.VRAM'
 
-render = {
+local render = {
     resX = 400,
     resY = 300,
     bgColor = 39

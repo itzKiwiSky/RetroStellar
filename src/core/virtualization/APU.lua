@@ -1,6 +1,6 @@
-soundthread = require 'src.core.SoundThread'
+local soundthread = require 'src.core.SoundThread'
 
-apu = {
+local apu = {
     Pointer = {
         isPlaying = false,
         isLooping = false,
