@@ -274,7 +274,6 @@ function savemnrg:_gamepadpressed(button)
                         for d = 1, #display, 1 do
                             display[d].itemClicked = false
                         end
-                    
                         display[item].itemClicked = true
                     end
                 end

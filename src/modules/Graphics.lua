@@ -19,7 +19,7 @@ function astroAPI.graphics.newSprite(index, x, y)
     spr.newSprite(index, x, y)
 end
 
-function astroAPI.graphics.newText(text, x, y, color)
+function astroAPI.graphics.newText(text, x, y, color, bgcolor)
     if type(color) == "number" then
         if color < 1 then
             color = 1
@@ -27,7 +27,14 @@ function astroAPI.graphics.newText(text, x, y, color)
             color = 39
         end
     end
-    fontText.newText(text, x, y, color)
+    if type(bgcolor) == "number" then
+        if bgcolor < 1 then
+            bgcolor = 1
+        elseif bgcolor > 39 then
+            bgcolor = 39
+        end
+    end
+    fontText.newText(text, x, y, color, bgcolor)
 end
 
 function astroAPI.graphics.getTextSize(text)

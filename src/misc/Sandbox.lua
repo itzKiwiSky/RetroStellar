@@ -34,7 +34,7 @@ return function()
     love.graphics.newVideo = nil
     love.graphics.newVolumeImage = nil
     love.graphics.setNewFont = nil
-    love.graphics.print = nil
+    --love.graphics.print = nil
     love.graphics.printf = nil
 
     -- Audio --

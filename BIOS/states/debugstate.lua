@@ -6,7 +6,6 @@ function debugscreen:enter()
         print(tostring(vram.buffer.bank[s].name))
         table.insert(tiles, vram.buffer.bank[s].name)
     end
-    print(debug.getTableContent(spr))
 end
 
 function debugscreen:_render()

@@ -8,14 +8,14 @@ function _init()
     end
 
     --% states --
-    splash = require 'BIOS.states.bootsplash'
-    loader = require 'BIOS.states.bootloader'
-    setup = require 'BIOS.states.setup'
-    credits = require 'BIOS.states.credits'
-    savemngr = require 'BIOS.states.savemngr'
-    updatewarn = require 'BIOS.states.updatewarn'
-    debugscreen = require 'BIOS.states.debugstate'
-    gamelib = require 'BIOS.states.gamelib'
+    splash = require 'BIOS.states.Bootsplash'
+    loader = require 'BIOS.states.Bootloader'
+    setup = require 'BIOS.states.Setup'
+    credits = require 'BIOS.states.Credits'
+    savemngr = require 'BIOS.states.Savemngr'
+    updatewarn = require 'BIOS.states.Updatewarn'
+    debugscreen = require 'BIOS.states.Debugstate'
+    gamelib = require 'BIOS.states.Gamelib'
 
     astroAPI.graphics.loadSpriteBankFromPath("BIOS/SPRCHR")
 
@@ -23,7 +23,7 @@ function _init()
     if _needUpdate then
         gamestate.switch(updatewarn)
     else
-        gamestate.switch(splash)
+        gamestate.switch(gamelib)
     end
 end
 

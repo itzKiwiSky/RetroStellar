@@ -41,6 +41,10 @@ function love.load()
     effect.scanlines.width = 1
     effect.scanlines.opacity = 0.5
 
+    --% initialization folders --
+    love.filesystem.createDirectory("bin")
+    love.filesystem.createDirectory("bin/library")
+
     storagedvr.init()
 
     --% addons loader --
@@ -48,6 +52,7 @@ function love.load()
     for addon = 1, #Addons, 1 do
         require("libraries.addons." .. string.gsub(Addons[addon], ".lua", ""))
     end
+
 
     __updateShaders__()
 
@@ -69,15 +74,10 @@ function love.load()
         showTouchpadButtons = false,
         listObjects = false,
         showMemory = false,
+        showVRAMInfo = false,
         showFPS = false,
         crashOnF12 = false,
     }
-
-    --% initialization folders --
-    love.filesystem.createDirectory("bin")
-    love.filesystem.createDirectory("bin/disks")
-    love.filesystem.createDirectory("bin/disks/A")
-    love.filesystem.createDirectory("bin/disks/A/projects")
 
     --% initialization stuff to the package --
 
@@ -150,6 +150,9 @@ function love.draw()
     end
     if DEVMODE.showFPS then
         love.graphics.print(love.timer.getFPS())
+    end
+    if DEVMODE.showVRAMInfo then
+        love.graphics.print("rendering : " .. vram.getInfo().totalObjects .. " objects")
     end
 end
 

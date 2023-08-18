@@ -58,7 +58,7 @@ function render.generateFrame()
     return love.graphics.newImage(buffer)
 end
 
-function render.createImageData(w, h, data, colorOverride)
+function render.createImageData(w, h, data, colorOverride, bgoverride)
     local Image = love.image.newImageData(w, h)
     if colorOverride == nil then
         for y = 1, #data, 1 do
@@ -83,6 +83,20 @@ function render.createImageData(w, h, data, colorOverride)
             end
         end
     end
+
+    if bgoverride ~= nil then
+        for y = 1, #data, 1 do
+            for x = 1, #data[1], 1 do
+                local color = vram.pallete[colorOverride]
+                if data[y][x] == 0 then
+                    Image:setPixel(x - 1, y - 1, vram.pallete[bgoverride][1] / 255, vram.pallete[bgoverride][2] / 255, vram.pallete[bgoverride][3] / 255)
+                else
+                    Image:setPixel(x - 1, y - 1, color[1] / 255, color[2] / 255, color[3] / 255)
+                end
+            end
+        end
+    end
+
     return Image
 end
 

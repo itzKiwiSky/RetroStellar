@@ -77,6 +77,17 @@ function nodisk:enter()
             }
         },
         {
+            name = "crimisoncry",
+            color = 16,
+            heart = {
+                enable = true,
+                id = "smile"
+            },
+            emoji = {
+                enable = false,
+            }
+        },
+        {
             name = "",
             color = 34,
             heart = {

@@ -1,4 +1,6 @@
-astroAPI.system = {}
+astroAPI.system = {
+    vram = {}
+}
 
 function astroAPI.system.shutdown()
     love.event.quit()
@@ -13,7 +15,7 @@ function astroAPI.system.vibrate(_intensity)
     shack:setShake(_intensity * 3)
 end
 
-function astroAPI.system.getVRAMInfo()
+function astroAPI.system.vram.getVRAMInfo()
     return vram.getInfo()
 end
 

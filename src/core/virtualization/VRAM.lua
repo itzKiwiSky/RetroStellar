@@ -57,16 +57,13 @@ vram.buffer = {
 }
 
 function vram.update()
-    if #vram.buffer.stack > 512 then
+    if #vram.buffer.stack > 640 then
         table.remove(vram.buffer.stack, 1)
     end
 end
 
 function vram.getInfo()
     return {
-        chars = _countTypes("char"),
-        sprites = _countTypes("sprite"),
-        shapes = _countTypes("shape"),
         totalObjects = #vram.buffer.stack,
     }
 end
