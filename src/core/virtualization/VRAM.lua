@@ -68,14 +68,4 @@ function vram.getInfo()
     }
 end
 
-function _countTypes(_type)
-    local count = 0
-    for o = 1 ,#vram.buffer.stack, 1 do
-        if vram.buffer.stack[o].type == _type then
-            count = count + 1
-        end
-    end
-    return count
-end
-
 return vram

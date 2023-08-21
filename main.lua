@@ -74,7 +74,7 @@ function love.load()
         showTouchpadButtons = false,
         listObjects = false,
         showMemory = false,
-        showVRAMInfo = false,
+        showVRAMInfo = true,
         showFPS = false,
         crashOnF12 = false,
     }
@@ -152,7 +152,7 @@ function love.draw()
         love.graphics.print(love.timer.getFPS())
     end
     if DEVMODE.showVRAMInfo then
-        love.graphics.print("rendering : " .. vram.getInfo().totalObjects .. " objects")
+        love.graphics.print("rendering : " .. vram.getInfo().totalObjects .. " objects", love.graphics.getWidth() - love.graphics.getFont():getWidth("rendering : " .. vram.getInfo().totalObjects .. " objects"), 0)
     end
 end
 

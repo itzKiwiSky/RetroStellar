@@ -1,7 +1,7 @@
 function _init()
     _curVersion = Version(_version)
     _needUpdate = false
-    if Version("0.0.2") > _curVersion then
+    if Version("0.0.1") > _curVersion then
         _needUpdate = true
     else
         _needUpdate = false

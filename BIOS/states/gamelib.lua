@@ -33,10 +33,10 @@ function gamelib:_render()
     --% end coolbox :( %--
     astroAPI.graphics.newRectangle(34, 10, 10, astroAPI.graphics.getTextSize(bootText) + 2, 9)
     astroAPI.graphics.newText(bootText, 11, 11, 39, 34)
-    astroAPI.graphics.newRectangle(34, 29, cursorY - 1, astroAPI.graphics.getTextSize(games[selection]:gsub(".pkg", "")) + 2, 9)
     if #games > 0 then
+        astroAPI.graphics.newRectangle(34, 29, cursorY - 1, astroAPI.graphics.getTextSize(games[selection]) + 2, 9)
         for g = pageRender, maxPage, 1 do
-            astroAPI.graphics.newText(games[g]:gsub(".pkg", ""), 30, gy, 34)
+            astroAPI.graphics.newText(games[g], 30, gy, 34)
             gy = gy + 10
         end
     end
